@@ -13,7 +13,8 @@ chroot:
 	mkdir -p ./chroot/var/lib/pacman/
 	sudo pacman -Syu --noconfirm -r ./chroot $SHELL $TARGET $OPTDEPENDS
 
-surpi.tar.gz: chroot
+surpi.tar.gz:
+	test -d chroot || make chroot
 	cd chroot &&
 	sudo bsdtar -cf ../surpi.tar.gz ./ &&
 	cd .. &&
