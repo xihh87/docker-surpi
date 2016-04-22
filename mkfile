@@ -1,4 +1,4 @@
-repo = csb-ig
+repo = xihh
 name = surpi
 version = v1.0.18.r30.b817022
 
@@ -7,14 +7,18 @@ OPTDEPENDS=abyss amos bioplayground blast+ fastqvalidator fqextract genometools 
 TARGET=surpi-git
 
 build:V: surpi.tar.gz
-	docker build -t $repo/$name .
+	docker build -t $repo/$name:$version .
+	docker tag $repo/$name:$version $repo/$name:latest
+
+push:V:
+	docker push $repo/$name:$version
 
 chroot:
 	mkdir -p ./chroot/var/lib/pacman/
-	sudo pacman -Syu --noconfirm -r ./chroot $SHELL $TARGET $OPTDEPENDS
+	sudo pacman -Syu --noconfirm -r ./chroot --config ./pacman.conf base $SHELL $TARGET $OPTDEPENDS
 
 surpi.tar.gz:
-	test -d chroot || make chroot
+	test -d chroot || mk chroot
 	cd chroot &&
 	sudo bsdtar -cf ../surpi.tar.gz ./ &&
 	cd .. &&
