@@ -1,9 +1,11 @@
 repo = xihh
 name = surpi
-version = v1.0.18.r30.b817022
+version = v1.0.18.r30.b817022.v6
 
-SHELL=busybox
-OPTDEPENDS=abyss amos bioplayground blast+ fastqvalidator fqextract genometools jdk7-openjdk mummer prinseq-lite python2-cutadapt rapsearch seqtk snap-dna
+SHELL=sh
+EDITOR=vis-git
+DEPENDS=abyss amos bioplayground blast+ fastqvalidator fqextract genometools jdk7-openjdk mummer prinseq-lite python2-cutadapt rapsearch seqtk snap-dna sra-tools openmpi perl-dbd-sqlite pigz
+OPTS=sshfs 9base
 TARGET=surpi-git
 
 build:V: surpi.tar.gz
@@ -15,15 +17,14 @@ push:V:
 
 chroot:
 	mkdir -p ./chroot/var/lib/pacman/
-	sudo pacman -Syu --noconfirm -r ./chroot --config ./pacman.conf base $SHELL $TARGET $OPTDEPENDS
+	sudo pacman -Syu --noconfirm -r ./chroot --config ./pacman.conf base $SHELL $EDITOR $TARGET $DEPENDS $OPTS
 
-surpi.tar.gz:
+surpi.tar.gz: chroot
 	test -d chroot || mk chroot
 	cd chroot &&
 	sudo bsdtar -cf ../surpi.tar.gz ./ &&
 	cd .. &&
-	sudo chown $USER surpi.tar.gz &&
-	sudo rm -r chroot
+	sudo chown $USER surpi.tar.gz
 
 %/:
 	mkdir -p $stem
@@ -32,5 +33,5 @@ run:V:
 	sh -c "docker run -t -i $repo/$name /bin/sh"
 
 clean:V:
-	sudo rm -r ./chroot
+	sudo rm -r ./chroot || true
 	rm surpi.tar.gz
