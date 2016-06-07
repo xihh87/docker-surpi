@@ -6,5 +6,6 @@ VOLUME ["/reference"]
 VOLUME ["/pipeline"]
 ADD "surpi.tar.gz" "/"
 RUN useradd -m -d /pipeline surpiuser; \
+	chown surpiuser:surpiuser /data /results /reference /pipeline ; \
 	printf "change-this-pass\nchange-this-pass\n" | passwd root
 ENTRYPOINT ["su", "-", "surpiuser"]
