@@ -1,10 +1,10 @@
 repo = xihh
 name = surpi
-version = v1.0.18.r30.b817022.v6
+version = v1.0.18.r30.b817022.v7
 
 SHELL=sh
 EDITOR=vis-git
-DEPENDS=abyss amos bioplayground blast+ fastqvalidator fqextract genometools jdk7-openjdk mummer prinseq-lite python2-cutadapt rapsearch seqtk snap-dna sra-tools openmpi perl-dbd-sqlite pigz
+DEPENDS=abyss amos bioplayground blast+ fastqvalidator fqextract genometools jdk7-openjdk mummer prinseq-lite python2-cutadapt rapsearch seqtk snap-dna sra-tools openmpi perl-dbd-sqlite pigz trimmomatic
 OPTS=sshfs 9base
 TARGET=surpi-git
 
